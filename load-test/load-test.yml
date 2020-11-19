@@ -1,0 +1,38 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 30
+      arrivalRate: 10
+  environments:
+    production:
+      target: "http://someurlouthere.prod.com"
+      phases:
+        - duration: 300
+          arrivalRate: 30
+    test:
+      target: "http://someurlouthere.test.com"
+      phases:
+        - duration: 150
+          arrivalRate: 20
+  plugins:
+    expect: {}
+  ensure:
+    p99: 45
+    maxErrorRate: 1
+scenarios:
+  - flow:
+    - get:
+        url: "/"
+        expect:
+          - statusCode: 200
+          - contentType: text/html; charset=utf-8
+    - get:
+        url: "/customers"
+        expect:
+          - statusCode: 200
+          - contentType: json
+    - get:
+        url: "/customers/nancy"
+        expect:
+          - statusCode: 200
+          - contentType: text/html; charset=utf-8
