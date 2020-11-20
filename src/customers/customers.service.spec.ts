@@ -15,4 +15,10 @@ describe('CustomersService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+
+  it('should add customer to list and get all customers', () => {
+    expect(service.findAll()).toEqual([]);
+    service.create('nancy');
+    expect(service.findAll()).toEqual(['nancy']);
+  });
 });
